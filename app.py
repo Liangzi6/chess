@@ -60,7 +60,7 @@ def show_question(idx):
     st.subheader(f"第 {idx+1} 题")
     st.markdown("**以下是炮的走法学习题目，轮到红方走，哪个选项是正确的？**")
     
-    # 显示题面图片，稍小一点，保持清晰
+    # 显示题面图片
     st.image(question['question_img'], width=400)
     
     options = question['options']
@@ -68,11 +68,11 @@ def show_question(idx):
         st.error("当前题目没有选项！")
         return
     
-    # 显示选项按钮，图片调大到更清晰
+    # 显示选项按钮，图片比题目稍小
     cols = st.columns(len(options))
     for i, (label, img) in enumerate(options):
         with cols[i]:
-            st.image(img, width=180)  # 选项图片调大
+            st.image(img, width=350)  # 选项图片稍小
             if st.button(label):
                 st.session_state.answers.append(label)
                 st.session_state.current_idx += 1
