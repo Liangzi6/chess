@@ -56,7 +56,6 @@ def show_question(idx):
         if st.button("重新开始"):
             st.session_state.current_idx = 0
             st.session_state.answers = []
-            st.experimental_rerun()
         return
     
     question = QUESTIONS[idx]
@@ -76,11 +75,11 @@ def show_question(idx):
     cols = st.columns(len(options))
     for i, (label, img) in enumerate(options):
         with cols[i]:
-            clicked = st.button(label, key=f"{idx}_{label}")
-            st.image(img, width=350)
-            if clicked:
+            # 用 st.button 点击提交答案，但不立即 rerun
+            if st.button(label, key=f"{idx}_{label}"):
                 select_answer(label)
-                st.experimental_rerun()  # 点击图片提交后自动跳到下一题
+            st.image(img, width=350)
 
 # 显示当前题
 show_question(st.session_state.current_idx)
+
