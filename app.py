@@ -45,6 +45,10 @@ if "current_idx" not in st.session_state:
 if "answers" not in st.session_state:
     st.session_state.answers = []
 
+def select_answer(label):
+    st.session_state.answers.append(label)
+    st.session_state.current_idx += 1
+
 def show_question(idx):
     if idx >= len(QUESTIONS):
         st.success("你已经完成所有题目！")
@@ -68,15 +72,14 @@ def show_question(idx):
         st.error("当前题目没有选项！")
         return
     
-    # 显示选项按钮，图片比题目稍小
+    # 显示选项按钮，点击整个图片可选
     cols = st.columns(len(options))
     for i, (label, img) in enumerate(options):
         with cols[i]:
-            st.image(img, width=350)  # 选项图片稍小
-            if st.button(label):
-                st.session_state.answers.append(label)
-                st.session_state.current_idx += 1
+            if st.button(label, key=f"{idx}_{label}"):
+                select_answer(label)
                 st.experimental_rerun()
+            st.image(img, width=350)
 
 # 显示当前题
 show_question(st.session_state.current_idx)
