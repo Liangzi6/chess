@@ -72,15 +72,15 @@ def show_question(idx):
         st.error("当前题目没有选项！")
         return
     
-    # 显示选项按钮，点击整个图片可选
+    # 显示选项图片，点击图片提交答案
     cols = st.columns(len(options))
     for i, (label, img) in enumerate(options):
         with cols[i]:
-            if st.button(label, key=f"{idx}_{label}"):
-                select_answer(label)
-                st.experimental_rerun()
+            clicked = st.button(label, key=f"{idx}_{label}")
             st.image(img, width=350)
+            if clicked:
+                select_answer(label)
+                st.experimental_rerun()  # 点击图片提交后自动跳到下一题
 
 # 显示当前题
 show_question(st.session_state.current_idx)
-
